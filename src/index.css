@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-neutral-100;
+}
+
+.headerIcon {
+  @apply hover:cursor-pointer hover:text-orange-500 text-blue-500 text-center drop-shadow-xl w-20 h-20;
+}

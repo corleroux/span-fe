@@ -1,29 +1,21 @@
 import React, { createContext, PropsWithChildren, ReactNode, useState } from "react";
 import { Basic } from "unsplash-js/dist/methods/topics/types";
 
-type Props = {
-  children: ReactNode;
-  value: any[];
-};
-
-type ITopicList = {};
+type Props = {};
 
 type ITopic = {
-  title: string;
-  description?: string;
-  photos?: string[];
+  title?: string | undefined;
+  description?: string | null | undefined;
+  photos?: any[];
 };
 
-export const initialTopic: ITopic = {
-  title: "Choose a topic",
-};
+type ITopicState = [ITopic, React.Dispatch<React.SetStateAction<ITopic>>?];
 
-const initialContext: any = [];
+const initTopic: ITopicState = [{}];
 
-export const TopicContext = createContext(initialContext);
+export const TopicContext = createContext(initTopic);
 
 export const TopicProvider = (props: PropsWithChildren<Props>) => {
-  const [topics, setTopics] = useState<Basic[]>();
-  const [topic, setTopic] = useState<ITopic>(initialTopic);
-  return <TopicContext.Provider value={{ topics, setTopics, topic, setTopic }}>{props.children}</TopicContext.Provider>;
+  const [topic, setTopic] = useState<ITopic>({});
+  return <TopicContext.Provider value={[topic, setTopic]}>{props.children}</TopicContext.Provider>;
 };

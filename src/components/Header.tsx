@@ -1,8 +1,7 @@
-import { DotsCircleHorizontalIcon } from "@heroicons/react/outline";
 import React, { MouseEventHandler } from "react";
 
 type Props = {
-  heading: string;
+  heading: string | undefined;
   icon?: React.ReactNode;
   onClick?: MouseEventHandler;
 };

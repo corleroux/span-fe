@@ -1,23 +1,17 @@
-import React, { useContext, useEffect, useRef } from "react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DotsCircleHorizontalIcon,
-  XCircleIcon,
-  ArrowCircleLeftIcon,
-  ArrowCircleDownIcon,
-} from "@heroicons/react/outline";
+import { useContext, useEffect, useRef } from "react";
+import { ChevronLeftIcon, ChevronRightIcon, ArrowCircleDownIcon } from "@heroicons/react/outline";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import { NavContext } from "../context/NavContext";
 import { Menu } from "./Menu";
 import { Header } from "./Header";
 import { Carousel } from "./Carousel/Carousel";
-import { getTopic, getTopicList } from "../services/api";
+import { getTopic, getTopicPhotos } from "../services/api";
+import { TopicsContext } from "../context/TopicsContext";
 import { TopicContext } from "../context/TopicContext";
 
 export const Landing = () => {
   const [nav, setNav] = useContext(NavContext);
-  const { topic, setTopic } = useContext(TopicContext);
+  const [topic, setTopic] = useContext(TopicContext);
   const carouselRef = useRef<HTMLDivElement>(null);
   const heading = nav.isOpen ? "Choose Topic" : topic ? topic.title : "";
   const icon = nav.isOpen ? (
@@ -28,11 +22,15 @@ export const Landing = () => {
 
   const onSelectTopic = (e: Event | undefined, topic: string) => {
     setNav ? setNav({ isOpen: false, isTopicSet: true, topicSlug: { topicIdOrSlug: topic } }) : false;
+    const navTopic: { topicIdOrSlug: string } = { topicIdOrSlug: topic };
+    getTopic(navTopic).then((r) => {
+      setTopic ? setTopic({ title: r?.title, description: r?.description }) : false;
+    });
   };
 
   const updateNav = () => {
     setNav ? setNav({ isOpen: true, isTopicSet: false, topicSlug: { topicIdOrSlug: "" } }) : false;
-    setTopic({});
+    setTopic ? setTopic({}) : false;
   };
 
   const handlePrevious = () => {
@@ -56,9 +54,9 @@ export const Landing = () => {
   };
 
   useEffect(() => {
-    if (nav.topicSlug && nav.topicSlug.topicIdOrSlug !== "") {
+    if (nav.topicSlug && nav.topicSlug.topicIdOrSlug !== "" && !topic) {
       getTopic(nav.topicSlug).then((r) => {
-        setTopic(r);
+        setTopic ? setTopic({ title: r?.title, description: r?.description }) : false;
       });
     }
   }, [nav.topicSlug]);

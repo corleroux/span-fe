@@ -1,18 +1,18 @@
-import { useState } from "react";
 import "./App.css";
-import { getTopicList, getTopicPhotos } from "./services/api";
-import { NavContext, intialNavState, NavProvider } from "./context/NavContext";
+import { NavProvider } from "./context/NavContext";
 import { Landing } from "./components/Landing";
-import { initialTopic, TopicProvider } from "./context/TopicContext";
-import { Carousel } from "./components/Carousel/Carousel";
+import { TopicsProvider } from "./context/TopicsContext";
+import { TopicProvider } from "./context/TopicContext";
 
 function App() {
   const val: any[] = [];
   return (
     <NavProvider>
-      <TopicProvider value={val}>
-        <Landing />
-      </TopicProvider>
+      <TopicsProvider value={val}>
+        <TopicProvider>
+          <Landing />
+        </TopicProvider>
+      </TopicsProvider>
     </NavProvider>
   );
 }

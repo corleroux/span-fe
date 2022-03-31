@@ -5,7 +5,7 @@ import { NavContext } from "../context/NavContext";
 import { Menu } from "./Menu";
 import { Header } from "./Header";
 import { Carousel } from "./Carousel/Carousel";
-import { getTopic, getTopicPhotos, topicEp, useUnsplashApi } from "../services/api";
+import { formatTopics, getTopic, getTopicPhotos, topicEp, useUnsplashApi } from "../services/api";
 import { TopicsContext } from "../context/TopicsContext";
 import { TopicContext } from "../context/TopicContext";
 
@@ -53,17 +53,7 @@ export const Landing = () => {
     }
   };
 
-  const [tresponse, tloading, terror] = useUnsplashApi(topicEp, { page: 2 });
-  console.log("Loading:", tloading);
-  console.log("ERROR", terror);
-  console.log("Tresponse", tresponse);
-  // useEffect(() => {
-  //   if (nav.topicSlug && nav.topicSlug.topicIdOrSlug !== "" && !topic) {
-  //     getTopic(nav.topicSlug).then((r) => {
-  //       setTopic ? setTopic({ title: r?.title, description: r?.description }) : false;
-  //     });
-  //   }
-  // }, [nav.topicSlug]);
+  const [tresponse, tloading, terror] = useUnsplashApi(topicEp, { page: 2 }, formatTopics);
 
   return (
     <>
@@ -105,7 +95,7 @@ export const Landing = () => {
             )}
             {nav.isOpen && !tloading && (
               <div className="col-start-1 col-span-3 row-start-2 row-span-2">
-                <Menu onSelectTopic={onSelectTopic} />
+                <Menu onSelectTopic={onSelectTopic} topics={tresponse} />
               </div>
             )}
             {!nav.isOpen && (

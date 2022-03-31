@@ -50,6 +50,13 @@ export const useUnsplashApi = (operation: any, options: any = null, callback: an
   return [response, loading, error];
 };
 
+export const formatTopics = (
+  value: ApiResponse<{ results: Basic[]; total: number }>
+): Basic[] | PromiseLike<Basic[] | undefined> | undefined => {
+  console.debug("getTopicList Request Successfull", value);
+  return value.response?.results;
+};
+
 export const getTopicList = async () => {
   const options = { page: 2 };
   const api = topicEp(options);

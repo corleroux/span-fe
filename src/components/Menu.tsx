@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { EventHandler, useContext, useEffect } from "react";
 import { Basic } from "unsplash-js/dist/methods/topics/types";
 import { NavContext } from "../context/NavContext";
 import { TopicContext } from "../context/TopicContext";
@@ -6,7 +6,7 @@ import { getTopicList } from "../services/api";
 import { MenuItem } from "./MenuItem";
 
 type Props = {
-  onSelectTopic: (e: Event | undefined, topic: string) => void;
+  onSelectTopic<EventHandler>(topic: string): void;
 };
 
 export const Menu = ({ onSelectTopic }: Props) => {

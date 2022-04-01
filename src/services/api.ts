@@ -3,7 +3,7 @@ import { ApiResponse } from "unsplash-js/dist/helpers/response";
 import { Basic, Full } from "unsplash-js/dist/methods/topics/types";
 import { PaginationParams } from "unsplash-js/dist/types/request";
 
-const apiUrl: string = "https://qe9a25jdui.execute-api.eu-west-1.amazonaws.com/test/api";
+export const apiUrl: string = "https://qe9a25jdui.execute-api.eu-west-1.amazonaws.com/test/api";
 
 export const getUnsplashApi = (apiUrl: string) =>
   createApi({

@@ -14,7 +14,7 @@ export const getUnsplashApi = (apiUrl: string) =>
 
 export const api = getUnsplashApi(apiUrl);
 export const topicEp = getUnsplashApi(apiUrl).topics.list;
-export const photoEp = api.photos;
+export const getTopicPhotos = api.topics.getPhotos;
 
 export const useUnsplashApi = (operation: any, options: any = null, callback: any = null) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -57,6 +57,13 @@ export const formatTopics = (
   return value.response?.results;
 };
 
+export const formatTopicPhotos = (
+  value: ApiResponse<{ results: photoBasic[]; total: number }>
+): photoBasic[] | PromiseLike<photoBasic[] | undefined> | undefined => {
+  console.debug("getTopicPhotos Request Successfull", value);
+  return value.response?.results;
+};
+
 export const getTopicList = async () => {
   const options = { page: 2 };
   const api = topicEp(options);
@@ -75,23 +82,6 @@ export const getTopic = async (topicIdOrSlug: { topicIdOrSlug: string }) => {
   const onSuccess = (value: ApiResponse<Full>) => {
     console.debug("getTopic Request Successfull", value);
     return value.response;
-  };
-  const value = await api;
-  return onSuccess(value);
-};
-
-export const getTopicPhotos = async ({
-  topicIdOrSlug,
-  page = 1,
-  perPage = 30,
-  orientation = "portrait",
-}: { topicIdOrSlug: string } & PaginationParams & OrientationParam) => {
-  const api = getUnsplashApi(apiUrl).topics.getPhotos({ topicIdOrSlug, page, perPage });
-  const onSuccess = (
-    value: ApiResponse<{ results: photoBasic[]; total: number }>
-  ): photoBasic[] | PromiseLike<photoBasic[] | undefined> | undefined => {
-    console.debug("getTopicPhotos Request Successfull", value);
-    return value.response?.results;
   };
   const value = await api;
   return onSuccess(value);

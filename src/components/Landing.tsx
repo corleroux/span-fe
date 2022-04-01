@@ -5,8 +5,7 @@ import { NavContext } from "../context/NavContext";
 import { Menu } from "./Menu";
 import { Header } from "./Header";
 import { Carousel } from "./Carousel/Carousel";
-import { formatTopics, getTopic, getTopicPhotos, topicEp, useUnsplashApi } from "../services/api";
-import { TopicsContext } from "../context/TopicsContext";
+import { formatTopicPhotos, formatTopics, getTopic, getTopicPhotos, topicEp, useUnsplashApi } from "../services/api";
 import { TopicContext } from "../context/TopicContext";
 
 export const Landing = () => {
@@ -54,7 +53,19 @@ export const Landing = () => {
   };
 
   const [tresponse, tloading, terror] = useUnsplashApi(topicEp, { page: 2 }, formatTopics);
-
+  if (topic) {
+    const [photos, photosLoading, photosError] = useUnsplashApi(
+      getTopicPhotos,
+      {
+        topic,
+        page: 1,
+        perPage: 30,
+        orientation: "portrait",
+      },
+      formatTopicPhotos
+    );
+    console.log(photos);
+  }
   return (
     <>
       <div className="container max-w-screen-3xl min-h-screen flex bg-neutral-100 scroll-smooth">
